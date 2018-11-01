@@ -1,8 +1,9 @@
 import csv
-import os
+import os,sys
 import paramiko
 from datetime import datetime
 from netmiko import ConnectHandler
+
 
 def server_tftp():
 
@@ -23,7 +24,7 @@ def get_hms_currently():
 
 def get_hostname_device_via_netmiko():
 
-    with open('server.csv', 'r') as open_file_csv:
+    with open(get_directory_path_file_csv, 'r') as open_file_csv:
         read_file_csv = csv.reader(open_file_csv, delimiter=',')
 
         next(open_file_csv)  # skip row header csv
@@ -101,9 +102,12 @@ def ssh_connect_backup_config_via_paramiko(host, port, user, password):
 
 if __name__ == '__main__':
 
-    if os.path.isfile('server.csv'):
+    get_path_current_execute_directory = os.path.dirname(os.path.realpath(sys.argv[0]))
+    get_directory_path_file_csv = (get_path_current_execute_directory+'/server.csv')
+ 
+    if os.path.isfile(get_directory_path_file_csv):
 
-        with open('server.csv', 'r') as open_file_csv:
+        with open(get_directory_path_file_csv, 'r') as open_file_csv:
 
             read_file_csv = csv.reader(open_file_csv, delimiter=',')
 
@@ -123,4 +127,4 @@ if __name__ == '__main__':
                 ssh_connect_backup_config_via_paramiko(host, port, user, password)
         open_file_csv.close()
     else:
-        print('File server.csv not exists !!! ')
+        print('File '+get_directory_path_file_csv+' not exists !!! ')
