@@ -49,3 +49,5 @@ systemctl start tftp
 systemctl enable xinetd
 systemctl enable tftp
 
+systemctl status xinetd
+systemctl status tftp
